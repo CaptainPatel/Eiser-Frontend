@@ -25,8 +25,7 @@ function App() {
     // Set loggedIn state based on localStorage
     return localStorage.getItem("token") !== null;
   });
-  const API_ENDPOINT = "http://localhost:5000";
-
+  const API_ENDPOINT = "https://eiser-ecommerce-backend.onrender.com"
   useEffect(() => {
     setLoading(true);
     fetchCart()

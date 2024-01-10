@@ -1,7 +1,5 @@
 import axios from "axios";
-
-const API_ENDPOINT = "http://localhost:5000"
-
+const API_ENDPOINT = "https://eiser-ecommerce-backend.onrender.com"
 async function fetchCart() {
   try {
     const token = localStorage.getItem("token");

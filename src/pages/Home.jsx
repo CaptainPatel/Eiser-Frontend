@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
 import Banner from "../components/Banner";
 import { Box, Divider, Typography } from "@mui/material";
-import axios from "axios";
 import ProductCard from "../components/ProductCard";
 import { ScaleLoader } from "react-spinners";
 import { AiFillWarning } from "react-icons/ai";

@@ -5,6 +5,8 @@ import { ScaleLoader } from "react-spinners";
 import { AiFillWarning } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa";
 
+const API_ENDPOINT = "https://eiser-ecommerce-backend.onrender.com"
+
 const Cart = ({ cart, loading, error, setCart }) => {
   const handleDeleteFromCart = async (id) => {
     try {
@@ -21,7 +23,7 @@ const Cart = ({ cart, loading, error, setCart }) => {
       };
 
       // Send a request to remove the product from the cart
-      const res = await axios.put(`http://localhost:5000/cart/delete/${id}`, {}, config);
+      const res = await axios.put(`${API_ENDPOINT}/cart/delete/${id}`, {}, config);
 
       // Update the cart state with the updated cart data
       setCart(res.data.cart);

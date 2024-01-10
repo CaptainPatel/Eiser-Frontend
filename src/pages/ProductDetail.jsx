@@ -15,10 +15,12 @@ const ProductDetail = ({ setCart }) => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [qty, setQty] = useState(1);
+  const API_ENDPOINT = "https://eiser-ecommerce-backend.onrender.com"
+
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/products/${id}`)
+      .get(`${API_ENDPOINT}/products/${id}`)
       .then((res) => setProduct(res.data.product))
       .catch(console.log);
   }, [id]);
@@ -49,14 +51,14 @@ const ProductDetail = ({ setCart }) => {
         };
         if (existingProductIndex !== -1) {
           // If the product is in the cart, update the quantity
-          await axios.put(`http://localhost:5000/cart/addToCart`, {
+          await axios.put(`${API_ENDPOINT}/cart/addToCart`, {
             ...userCart.products[existingProductIndex],
             qty: parseInt(qty),
           }, config);
           alert("Updated quantity in Cart");
         } else {
           // If the product is not in the cart, add it
-          await axios.put("http://localhost:5000/cart/addToCart", {
+          await axios.put(API_ENDPOINT + "/cart/addToCart", {
             productId: product._id,
             name: product.name,
             qty: parseInt(qty),
