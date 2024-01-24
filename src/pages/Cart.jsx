@@ -1,13 +1,19 @@
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Button, IconButton, Snackbar, Typography } from "@mui/material";
 import axios from "axios";
 import BreadCrumb from "../components/BreadCrumb";
 import { ScaleLoader } from "react-spinners";
 import { AiFillWarning } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa";
+import Alert from "@mui/material/Alert";
+import { useState } from "react";
+
 
 const API_ENDPOINT = "https://eiser-ecommerce-backend.onrender.com"
 
 const Cart = ({ cart, loading, error, setCart }) => {
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [snackbarMessage, setSnackbarMessage] = useState("");
   const handleDeleteFromCart = async (id) => {
     try {
       const token = localStorage.getItem("token");
@@ -27,11 +33,111 @@ const Cart = ({ cart, loading, error, setCart }) => {
 
       // Update the cart state with the updated cart data
       setCart(res.data.cart);
-      alert("Product deleted successfully");
+      setSnackbarSeverity("success");
+      setSnackbarMessage("Product deleted successfully");
+      setSnackbarOpen(true);
     } catch (err) {
       console.error("Error deleting product from cart:", err.message);
-      alert("Failed to delete product from Cart. Please try again.");
+      console.error("Error deleting product from cart:", err.message);
+      setSnackbarSeverity("error");
+      setSnackbarMessage(
+        "Failed to delete product from Cart. Please try again."
+      );
+      setSnackbarOpen(true);
     }
+  };
+
+
+  const handleBuyCart = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        // Handle the case where the token is not available
+        return alert("Token not found");
+      }
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const amount = 10000
+      const currency = "USD"
+      const receipt = "wakawaka"
+
+      // Send a request to purchase the cart
+      const res = await fetch(`${API_ENDPOINT}/cart/purchase`, {
+        method: "POST",
+        body: JSON.stringify({
+          amount,
+          currency,
+          receipt,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      }
+      );
+      const order = await res.json();
+      console.log(order);
+      var options = {
+        "key": `${import.meta.env.VITE_APP_RAZORPAY_KEY_ID}`, // Enter the Key ID generated from the Dashboard
+        amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        currency,
+        "name": "Captain Patel", //your business name
+        "description": "Payment Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response) {
+          alert(response.razorpay_payment_id);
+          alert(response.razorpay_order_id);
+          alert(response.razorpay_signature)
+        },
+        "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
+          "name": "Gaurav Kumar", //your customer's name
+          "email": "gaurav.kumar@example.com",
+          "contact": "9019910290"  //Provide the customer's phone number for better conversion rates 
+        },
+        "notes": {
+          "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+          "color": "#797979"
+        }
+      };
+      var rzp1 = new window.Razorpay(options);
+      rzp1.on('payment.failed', function (response) {
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+      });
+      rzp1.open();
+      e.preventDefault();
+      setSnackbarSeverity("success");
+      setSnackbarMessage("Cart purchased successfully");
+      setSnackbarOpen(true);
+    } catch (err) {
+      console.error("Error purchasing cart:", err.message);
+      setSnackbarSeverity("error");
+      setSnackbarMessage(
+        "Failed to purchase cart. Please try again."
+      );
+      setSnackbarOpen(true);
+    }
+  };
+
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
   };
 
 
@@ -286,6 +392,29 @@ const Cart = ({ cart, loading, error, setCart }) => {
           </table>
         </Box>
       </Box>
+      <Box mt="20px" textAlign="center">
+        <Button
+          variant="contained"
+          sx={{ bgcolor: "#71cd14", mb: "1rem" }}
+          onClick={handleBuyCart}
+        >
+          Buy Cart
+        </Button>
+      </Box>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          elevation={6}
+          variant="filled"
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

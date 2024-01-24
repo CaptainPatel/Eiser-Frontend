@@ -43,9 +43,11 @@ async function login(email, password) {
       email,
       password,
     });
+    let token = localStorage.getItem("token");
     if (!res.data.success) {
       throw new Error(res.data.error); // Throw an error with the error message
     } else {
+      if (!token) localStorage.setItem("token", res.data.token);
       return res.data.user;
     }
   } catch (error) {

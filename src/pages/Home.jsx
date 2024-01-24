@@ -8,9 +8,9 @@ const Home = ({ products, loading, error }) => {
   return (
     <div>
       <Banner />
-      <Box py={"80px"}>
+      <Box py={{ xs: "40px", md: "80px" }}>
         <Box maxWidth={"1200px"} mx={"auto"}>
-          <Box mb={"75px"}>
+          <Box mb={{ xs: "40px", md: "75px" }}>
             <Typography
               variant="h3"
               sx={{
@@ -39,13 +39,9 @@ const Home = ({ products, loading, error }) => {
             </Typography>
           </Box>
 
-          {/* {products?.map((product) => {
-            return <ProductCard key={product.id} product={product} />;
-          })} */}
-
           {loading ? (
             <Box
-              height="50vh"
+              height={{ xs: "30vh", md: "50vh" }}
               display={"flex"}
               justifyContent={"center"}
               alignItems={"center"}
@@ -54,7 +50,7 @@ const Home = ({ products, loading, error }) => {
             </Box>
           ) : error ? (
             <Box
-              height="50vh"
+              height={{ xs: "30vh", md: "50vh" }}
               display={"flex"}
               justifyContent={"center"}
               alignItems={"center"}
@@ -82,13 +78,21 @@ const Home = ({ products, loading, error }) => {
             <Box
               sx={{
                 display: "grid",
-                gridTemplateColumns: "repeat(3, 1fr)",
+                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
                 gap: "20px",
                 mt: "50px",
               }}
             >
               {products?.slice(1, 4).map((product) => {
-                return <ProductCard width={340} height={"519px"} imgHeight={"420px"} key={product._id} product={product} />;
+                return (
+                  <ProductCard
+                    width={{ xs: "100%", sm: "300px", md: "340px" }}
+                    height={{ xs: "200px", sm: "300px", md: "519px" }}
+                    imgHeight={{ xs: "150px", sm: "220px", md: "420px" }}
+                    key={product._id}
+                    product={product}
+                  />
+                );
               })}
             </Box>
           )}

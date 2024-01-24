@@ -26,7 +26,6 @@ const Login = ({ setLoggedIn }) => {
             // Assuming a successful login, you can access user data
             reset();
             setLoggedIn(true);
-            // localStorage.setItem("token", user.token);
 
             // Display success message
             setSuccessMessage(`Welcome back, ${user.email}!`);
@@ -34,6 +33,8 @@ const Login = ({ setLoggedIn }) => {
             // Redirect to the home page after a delay
             setTimeout(() => {
                 navigate('/');
+                window.location.reload();
+
             }, 2000);
         } catch (error) {
             alert('Invalid credentials. Please check your email and password.');
