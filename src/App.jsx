@@ -19,7 +19,7 @@ function App() {
   const [products, setProducts] = useState([]);
   const [productLoading, setProductLoading] = useState(false);
   const [productError, setProductError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [loggedIn, setLoggedIn] = useState(() => {
     // Set loggedIn state based on localStorage
@@ -42,7 +42,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
+    setProductLoading(true);
     axios
       .get(API_ENDPOINT + "/products")
       .then((res) => {
@@ -54,7 +54,7 @@ function App() {
           err.message || err.response?.data?.message || "Something Went Wrong"
         );
       })
-      .finally(() => setLoading(false));
+      .finally(() => setProductLoading(false));
   }, []);
 
   return (
