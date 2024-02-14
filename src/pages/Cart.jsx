@@ -49,76 +49,14 @@ const Cart = ({ cart, loading, error, setCart }) => {
 
 
   const handleBuyCart = async () => {
+    e.preventDefault();
     try {
       const token = localStorage.getItem("token");
       if (!token) {
         // Handle the case where the token is not available
-        return alert("Token not found");
+        return alert("You are not logged in!");
       }
-
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-
-      const amount = 10000
-      const currency = "USD"
-      const receipt = "wakawaka"
-
-      // Send a request to purchase the cart
-      const res = await fetch(`${API_ENDPOINT}/cart/purchase`, {
-        method: "POST",
-        body: JSON.stringify({
-          amount,
-          currency,
-          receipt,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
-      }
-      );
-      const order = await res.json();
-      console.log(order);
-      var options = {
-        "key": `${import.meta.env.VITE_APP_RAZORPAY_KEY_ID}`, // Enter the Key ID generated from the Dashboard
-        amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-        currency,
-        "name": "Captain Patel", //your business name
-        "description": "Payment Transaction",
-        "image": "https://example.com/your_logo",
-        "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-        "handler": function (response) {
-          alert(response.razorpay_payment_id);
-          alert(response.razorpay_order_id);
-          alert(response.razorpay_signature)
-        },
-        "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
-          "name": "Gaurav Kumar", //your customer's name
-          "email": "gaurav.kumar@example.com",
-          "contact": "9019910290"  //Provide the customer's phone number for better conversion rates 
-        },
-        "notes": {
-          "address": "Razorpay Corporate Office"
-        },
-        "theme": {
-          "color": "#797979"
-        }
-      };
-      var rzp1 = new window.Razorpay(options);
-      rzp1.on('payment.failed', function (response) {
-        alert(response.error.code);
-        alert(response.error.description);
-        alert(response.error.source);
-        alert(response.error.step);
-        alert(response.error.reason);
-        alert(response.error.metadata.order_id);
-        alert(response.error.metadata.payment_id);
-      });
-      rzp1.open();
-      e.preventDefault();
+      window.location.href = "https://rzp.io/l/ZsdC0nDN1";
       setSnackbarSeverity("success");
       setSnackbarMessage("Cart purchased successfully");
       setSnackbarOpen(true);
@@ -130,7 +68,7 @@ const Cart = ({ cart, loading, error, setCart }) => {
       );
       setSnackbarOpen(true);
     }
-  };
+  }
 
 
   const handleCloseSnackbar = (event, reason) => {
@@ -396,7 +334,7 @@ const Cart = ({ cart, loading, error, setCart }) => {
         <Button
           variant="contained"
           sx={{ bgcolor: "#71cd14", mb: "1rem" }}
-          onClick={handleBuyCart}
+          onClick={() => { window.location.href = "https://rzp.io/l/ZsdC0nDN1" }}
         >
           Buy Cart
         </Button>

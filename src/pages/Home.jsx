@@ -1,4 +1,6 @@
 import Banner from "../components/Banner";
+import Banner2 from "../components/Banner2";
+import FeatureRow from "../components/FeatureRow";
 import { Box, Divider, Typography } from "@mui/material";
 import ProductCard from "../components/ProductCard";
 import { ScaleLoader } from "react-spinners";
@@ -8,6 +10,9 @@ const Home = ({ products, loading, error }) => {
   return (
     <div>
       <Banner />
+      <FeatureRow />
+      <Banner2 />
+
       <Box py={{ xs: "40px", md: "80px" }}>
         <Box maxWidth={"1200px"} mx={"auto"}>
           <Box mb={{ xs: "40px", md: "75px" }}>
@@ -86,9 +91,9 @@ const Home = ({ products, loading, error }) => {
               {products?.slice(1, 4).map((product) => {
                 return (
                   <ProductCard
-                    width={{ xs: "100%", sm: "300px", md: "340px" }}
-                    height={{ xs: "200px", sm: "300px", md: "519px" }}
-                    imgHeight={{ xs: "150px", sm: "220px", md: "420px" }}
+                    width={{ xs: "70%", sm: "170px", md: "240px" }}
+                    height={{ xs: "190px", sm: "290px", md: "319px" }}
+                    imgHeight={{ xs: "120px", sm: "150px", md: "170px" }}
                     key={product._id}
                     product={product}
                   />

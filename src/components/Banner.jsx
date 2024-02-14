@@ -9,6 +9,9 @@ const Banner = () => {
         backgroundImage: `url(${banner})`,
         display: "flex",
         alignItems: "center",
+        p: {
+          xs: "1rem",
+        }
       }}
     >
       <Box
@@ -76,7 +79,7 @@ const Banner = () => {
               lineHeight: "44px",
               paddingInline: "32px",
               "&:hover": {
-                bgcolor : "#559712"
+                bgcolor: "#559712"
               },
             }}
             variant="contained"

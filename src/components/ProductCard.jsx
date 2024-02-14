@@ -13,6 +13,11 @@ const ProductCard = ({ product, width, height, imgHeight }) => {
         height: { xs: "auto", sm: height, md: height },
         borderRadius: "0",
         boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)", // Add a subtle shadow
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        bgcolor: "2a2a2a"
       }}
       elevation={0}
     >
@@ -20,15 +25,16 @@ const ProductCard = ({ product, width, height, imgHeight }) => {
         component={Link}
         to={`/products/${product._id}`}
         sx={{
-          width: "100%",
+          width: "60%",
           height: imgHeight,
           backgroundSize: "contain",
           backgroundPosition: "center",
+          mixBlendMode: "darken"
         }}
         image={product.image}
         title={product.name}
       />
-      <CardContent sx={{ p: { xs: "12px", sm: "22px 25px 18px" }, border: "1px solid #f0f2f1" }}>
+      <CardContent sx={{ p: { xs: "12px", sm: "22px 25px 18px" }, border: "1px solid black", width: "97%" }}>
         <Typography
           gutterBottom
           variant="h5"
